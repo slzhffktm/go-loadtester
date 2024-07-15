@@ -1,6 +1,12 @@
 # Go LoadTester
 
-Simple load testing tool for Go. It is designed to support multistep testing.
+Simple load testing tool for Go. It is designed to support multistep HTTP testing and will store & calculate the HTTP metrics.
+
+## Why did I build this tool?
+
+Because the existing tools cannot support getting the HTTP response, do something, then use it for the next request.
+This tool is specifically designed for this purpose.
+Example: Create an object, then get the created object using the ID returned from the create object response.
 
 ## Installation
 
@@ -10,7 +16,7 @@ go get -u github.com/slzhffktm/go-loadtester
 
 ## How to Use
 
-Check the example at [example/main.go](`example/main.go`).
+Check the example at [example/main.go](example/main.go).
 It'll print this result:
 
 ```bash
@@ -46,3 +52,8 @@ Latencies (Success Only)
 | Get object    | 86 ms  | 96 ms  | 99 ms  | 106 ms | 87 ms  | 107 ms | 75 ms |
 +---------------+--------+--------+--------+--------+--------+--------+-------+
 ```
+
+## Thanks to
+
+- [vegeta](https://github.com/tsenart/vegeta/tree/master)
+- [autocannon-go](https://github.com/GlenTiki/autocannon-go/tree/master)
