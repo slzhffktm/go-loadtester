@@ -1,4 +1,4 @@
-# Go LoadTester
+# go-loadtester
 
 Simple load testing tool for Go. It is designed to support multistep HTTP testing and will store & calculate the HTTP metrics.
 
