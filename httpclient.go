@@ -156,11 +156,8 @@ func (h *HttpClient) SummarizeMetrics() map[string]Metrics {
 		metrics.Requests++
 		metrics.StatusCodes[s.statusCode]++
 		metrics.Latencies.Add(s.latency)
-		if s.statusCode != 0 {
-			metrics.LatenciesSuccess.Add(s.latency)
-		}
-
 		if s.statusCode >= 200 && s.statusCode < 300 {
+			metrics.LatenciesSuccess.Add(s.latency)
 			metrics.SuccessCount++
 		}
 
