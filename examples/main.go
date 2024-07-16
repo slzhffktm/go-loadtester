@@ -4,19 +4,12 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/slzhffktm/go-loadtester"
 )
-
-func init() {
-	// Set up logging.
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout})
-}
 
 func main() {
 	loadTester := loadtester.NewLoadTester()
@@ -25,6 +18,7 @@ func main() {
 	rate := loadtester.Rate{Freq: 10, Per: time.Second} // 10 requests per second
 
 	loadTester.Start(context.Background(), rate, duration, func(ctx context.Context, httpClient *loadtester.HttpClient) {
+		// Send the first HTTP request.
 		var res map[string]any
 		err := httpClient.SendRequest(
 			ctx,
@@ -51,11 +45,19 @@ func main() {
 			return
 		}
 
+		// Do something with the response from the 1st request, e.g. get the object id.
+		id, ok := res["id"].(string)
+		if !ok {
+			log.Error().Msg("Failed to get object id")
+			return
+		}
+
+		// Send the 2nd request, using the id from the 1st response.
 		err = httpClient.SendRequest(
 			ctx,
 			"Get object",
 			http.MethodGet,
-			fmt.Sprintf("https://api.restful-api.dev/objects/%v", res["id"]),
+			fmt.Sprintf("https://api.restful-api.dev/objects/%s", id),
 			nil,
 			nil,
 			nil,
