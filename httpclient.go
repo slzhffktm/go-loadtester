@@ -120,8 +120,10 @@ func (h *HttpClient) SendRequest(
 		return fmt.Errorf("unexpected status code %d, response body: %s", httpRes.StatusCode, string(resBody))
 	}
 
-	if err := json.Unmarshal(resBody, response); err != nil {
-		return fmt.Errorf("json.Unmarshal response body: %w, response body: %s", err, string(resBody))
+	if response != nil {
+		if err := json.Unmarshal(resBody, response); err != nil {
+			return fmt.Errorf("json.Unmarshal response body: %w, response body: %s", err, string(resBody))
+		}
 	}
 
 	return nil
